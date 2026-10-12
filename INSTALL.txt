@@ -1,0 +1,30 @@
+MIX MAP  -  By @_rodobustos
+Plugin VST3 para Ableton Live 12. Solo Apple Silicon, macOS 12 o superior.
+
+INSTALACION
+1. Copia "Mix Map.vst3" (esta en este disco) a la carpeta:
+      ~/Library/Audio/Plug-Ins/VST3
+   En Finder: menu Ir > Ir a la carpeta...  y pega esa ruta.
+   Si la carpeta VST3 no existe, creala.
+
+2. Abri Terminal (Aplicaciones > Utilidades) y pega este comando, todo en una linea:
+      xattr -cr ~/Library/Audio/Plug-Ins/VST3/"Mix Map.vst3"
+   Esto saca el bloqueo de macOS a los archivos descargados. Hay que repetirlo
+   cada vez que descargues una version nueva.
+
+3. En Live: Preferencias > Plug-ins. Activa "Use VST3 Plug-In System Folders"
+   y presiona Rescan.
+
+4. En el navegador de Live: Plug-ins > VST3 > Rodo Bustos > Mix Map.
+   Arrastralo a la pista Master.
+
+5. Para abrir y cerrar la ventana con el teclado: modo Key Map (Cmd+K), clic en el
+   boton de mostrar/ocultar ventana del plugin en el titulo del dispositivo, y
+   presiona la tecla elegida.
+
+NOTAS
+- Si Live corre con Rosetta (Get Info de la app de Live), el plugin no carga:
+  es solo arm64.
+- Las notas, la tonalidad, los BPM y el tamano de ventana se guardan con el set.
+  El contador del pomodoro no. Guarda el set (Cmd+S) despues de editar notas.
+- El plugin no procesa audio: la senal pasa sin tocarse.
