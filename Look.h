@@ -4,7 +4,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <functional>
-#include "../Core/MixMapCore.h"
+#include "MixMapCore.h"
 
 namespace mmcolour
 {

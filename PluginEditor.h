@@ -4,7 +4,7 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "PluginProcessor.h"
-#include "UI/Panels.h"
+#include "Panels.h"
 
 // Fixed-size design surface (1864 x 440). The editor scales it uniformly (50% - 200%).
 class MixMapContent : public juce::Component

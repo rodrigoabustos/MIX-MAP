@@ -4,7 +4,7 @@
 
 #include <array>
 #include "Look.h"
-#include "../PluginProcessor.h"
+#include "PluginProcessor.h"
 
 //==============================================================================
 // Module 1 - KEY: root note -> Hz of root, P5, b7, #4 across octaves C0..C10

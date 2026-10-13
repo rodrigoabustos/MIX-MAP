@@ -6,7 +6,7 @@
 #include <array>
 #include <atomic>
 #include <memory>
-#include "Core/MixMapCore.h"
+#include "MixMapCore.h"
 
 struct MixMapSettings
 {
