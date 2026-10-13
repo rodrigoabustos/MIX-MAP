@@ -1,63 +1,32 @@
-
-/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Build · YML
 name: Build Mix Map
- 
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
- 
+
 jobs:
   build:
     runs-on: macos-15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
- 
-      - name: Find project folder
-        run: ls -la && ROOT="$(dirname "$(find . -name CMakeLists.txt | head -1)")" && echo "Project folder is $ROOT" && test -f "$ROOT/CMakeLists.txt" && echo "ROOT=$ROOT" >> "$GITHUB_ENV"
- 
-      - name: Compile unit tests
-        working-directory: ${{ env.ROOT }}
-        run: c++ -std=c++17 -Wall -Wextra Tests/tests.cpp -I Source/Core -o mixmap_tests
- 
-      - name: Run unit tests
-        working-directory: ${{ env.ROOT }}
-        run: ./mixmap_tests
- 
+
+      - name: Show repository files
+        run: ls -la
+
+      - name: Unit tests
+        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && c++ -std=c++17 -Wall -Wextra Tests/tests.cpp -I Source/Core -o mixmap_tests && ./mixmap_tests
+
       - name: Configure
-        working-directory: ${{ env.ROOT }}
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0
- 
+        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0
+
       - name: Build VST3
-        working-directory: ${{ env.ROOT }}
-        run: cmake --build build --config Release --target MixMap_VST3 --parallel 4
- 
+        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && cmake --build build --config Release --target MixMap_VST3 --parallel 4
+
       - name: Sign and package DMG
-        working-directory: ${{ env.ROOT }}
-        run: PLUGIN="$(find build -name 'Mix Map.vst3' -type d | head -1)" && codesign --force --deep --sign - "$PLUGIN" && codesign --verify --deep --strict "$PLUGIN" && mkdir dmgroot && cp -R "$PLUGIN" dmgroot/ && cp INSTALL.txt dmgroot/ && hdiutil create -volname "Mix Map" -srcfolder dmgroot -ov -format UDZO MixMap.dmg
- 
+        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && PLUGIN="$(find build -name 'Mix Map.vst3' -type d | head -1)" && codesign --force --deep --sign - "$PLUGIN" && codesign --verify --deep --strict "$PLUGIN" && mkdir dmgroot && cp -R "$PLUGIN" dmgroot/ && cp INSTALL.txt dmgroot/ && hdiutil create -volname "Mix Map" -srcfolder dmgroot -ov -format UDZO MixMap.dmg
+
       - name: Upload DMG
         uses: actions/upload-artifact@v4
-        with: { name: MixMap-dmg, path: '${{ env.ROOT }}/MixMap.dmg' }
- 
-
-
-
-
-Claude terminó la respuesta
+        with: { name: MixMap-dmg, path: '**/MixMap.dmg' }
