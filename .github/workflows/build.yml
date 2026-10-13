@@ -16,7 +16,7 @@ jobs:
         run: ls -la
 
       - name: Unit tests
-        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && c++ -std=c++17 -Wall -Wextra Tests/tests.cpp -I Source/Core -o mixmap_tests && ./mixmap_tests
+        run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && c++ -std=c++17 -Wall -Wextra tests.cpp -I . -o mixmap_tests && ./mixmap_tests
 
       - name: Configure
         run: cd "$(dirname "$(find . -maxdepth 2 -name CMakeLists.txt | head -1)")" && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0
